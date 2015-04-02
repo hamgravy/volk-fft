@@ -309,6 +309,7 @@ file(GLOB xml_files ${CMAKE_SOURCE_DIR}/gen/*.xml)
 file(GLOB py_files ${CMAKE_SOURCE_DIR}/gen/*.py)
 file(GLOB h_files ${CMAKE_SOURCE_DIR}/kernels/volk_fft/*.h)
 
+
 macro(gen_template tmpl output)
     list(APPEND volk_fft_gen_sources ${output})
     add_custom_command(
@@ -366,7 +367,8 @@ foreach(machine_name ${available_machines})
     )
     MESSAGE(STATUS "BUILD INFO ::: ${machine_name} ::: ${COMPILER_NAME} ::: ${CMAKE_C_FLAGS_${CBTU}} ${CMAKE_C_FLAGS} ${${machine_name}_flags}")
     set(COMPILER_INFO "${COMPILER_INFO}${machine_name}:::${COMPILER_NAME}:::${CMAKE_C_FLAGS_${CBTU}} ${CMAKE_C_FLAGS} ${${machine_name}_flags}\n" )
-    if(${machine_name}_flags)
+    set_source_files_properties(${machine_source} PROPERTIES LANGUAGE CXX) #ESB
+	if(${machine_name}_flags)
         set_source_files_properties(${machine_source} PROPERTIES COMPILE_FLAGS "${${machine_name}_flags}")
     endif()
 
@@ -506,6 +508,12 @@ set_source_files_properties(
     ${CMAKE_CURRENT_BINARY_DIR}/volk_fft.c
     ${CMAKE_CURRENT_BINARY_DIR}/volk_fft_machines.c
 PROPERTIES COMPILE_DEFINITIONS "${machine_defs}")
+
+# ESB
+set_source_files_properties(
+    ${CMAKE_CURRENT_BINARY_DIR}/volk_fft.c
+    ${CMAKE_CURRENT_BINARY_DIR}/volk_fft_machines.c
+PROPERTIES LANGUAGE CXX)
 
 if(MSVC)
     #add compatibility includes for stdint types
