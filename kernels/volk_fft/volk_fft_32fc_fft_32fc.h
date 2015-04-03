@@ -23,7 +23,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <inttypes.h>
-#include "volk_fft/volk_fft_generics.h"
+#include "dsp/NE10_fft.h"
+#include "NE10_dsp.h"
 
 #ifndef INCLUDED_volk_fft_32fc_fft_32fc_a_H
 #define INCLUDED_volk_fft_32fc_fft_32fc_a_H
@@ -33,7 +34,31 @@
 static inline void
 volk_fft_32fc_fft_32fc_generic(lv_32fc_t* bVector, const lv_32fc_t* aVector, unsigned int num_points)
 {
-	generic_32fc_fft_32fc(bVector, aVector, num_points);
+	ne10_fft_cfg_float32_t cfg_float32;
+	cfg_float32 = ne10_fft_alloc_c2c_float32_c(num_points);
+
+    ne10_float32_t* in_generic = (ne10_float32_t*) aVector;
+    ne10_float32_t* out_generic = (ne10_float32_t*) bVector;  
+
+	const ne10_float32_t isinverse = 0;
+
+    ne10_fft_c2c_1d_float32_c( (ne10_fft_cpx_float32_t*) out_generic, \
+                               (ne10_fft_cpx_float32_t*) in_generic, \
+                                cfg_float32, \
+                                isinverse);
+
+    int ii;
+    printf("x=[");
+    for (ii=0; ii < num_points; ii++){
+        printf("%f+%fi;",(float)in_generic[ii*2],(float)in_generic[(ii*2)+1]);
+    }
+    printf("];\n");
+    printf("y=[");
+    for (ii=0; ii < num_points; ii++){
+        printf("%f+%fi;",(float)out_generic[ii*2],(float)out_generic[(ii*2)+1]);
+    }
+    printf("];\n");
+
 }
 #endif /* LV_HAVE_GENERIC */
 

@@ -470,8 +470,6 @@ endif()
 ########################################################################
 # FFT related
 ########################################################################
-list(APPEND volk_fft_sources volk_fft_generics.c)
-set_source_files_properties(volk_fft_generics.c PROPERTIES LANGUAGE CXX)
 
 ########################################################################
 # Handle the generated constants
