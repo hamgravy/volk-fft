@@ -468,6 +468,12 @@ else()
 endif()
 
 ########################################################################
+# FFT related
+########################################################################
+list(APPEND volk_fft_sources volk_fft_generics.c)
+set_source_files_properties(volk_fft_generics.c PROPERTIES LANGUAGE CXX)
+
+########################################################################
 # Handle the generated constants
 ########################################################################
 
@@ -523,9 +529,12 @@ if(MSVC)
     set_source_files_properties(${volk_fft_sources} PROPERTIES LANGUAGE CXX)
 endif()
 
+
+
 #create the volk_fft runtime library
 add_library(volk_fft SHARED ${volk_fft_sources})
 target_link_libraries(volk_fft ${volk_fft_libraries})
+target_link_libraries(volk_fft ${NE10_LIBRARY})
 set_target_properties(volk_fft PROPERTIES SOVERSION ${LIBVER})
 set_target_properties(volk_fft PROPERTIES DEFINE_SYMBOL "volk_fft_EXPORTS")
 

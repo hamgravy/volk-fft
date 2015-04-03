@@ -25,6 +25,11 @@ std::vector<volk_fft_test_case_t> init_test_list(volk_fft_test_params_t test_par
     volk_fft_test_params_t test_params_inacc = volk_fft_test_params_t(1e-3, test_params.scalar(),
             test_params.vlen(), test_params.iter(), test_params.benchmark_mode(), test_params.kernel_regex());
 
+
+    volk_fft_test_params_t test_params_fft = volk_fft_test_params_t(1e-3, test_params.scalar(),
+            16, 4, test_params.benchmark_mode(), test_params.kernel_regex());
+
+
     std::vector<volk_fft_test_case_t> test_cases = boost::assign::list_of
         // no one uses these, so don't test them
         //VOLK_PROFILE(volk_fft_16i_x5_add_quad_16i_x4, 1e-4, 2046, 10000, &results, benchmark_mode, kernel_regex);
@@ -35,6 +40,8 @@ std::vector<volk_fft_test_case_t> init_test_list(volk_fft_test_params_t test_par
         //VOLK_PROFILE(volk_fft_16i_x4_quad_max_star_16i, 1e-4, 0, 2046, 10000, &results, benchmark_mode, kernel_regex);
         // we need a puppet for this one
         //(VOLK_INIT_TEST(volk_fft_32fc_s32f_x2_power_spectral_density_32f,   test_params))
+        (VOLK_INIT_TEST(volk_fft_32fc_fft_32fc, test_params_fft))
+        (VOLK_INIT_TEST(volk_fft_32ic_fft_32ic, test_params_fft))
         (VOLK_INIT_TEST(volk_fft_32f_null_32f, test_params))
         ;
 

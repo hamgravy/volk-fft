@@ -98,12 +98,10 @@ else(ENABLE_ORC)
   message(STATUS "Disabling use of ORC")
 endif(ENABLE_ORC)
 
-if(DEFINED CROSS_PREFIX)
-	set(CMAKE_FIND_ROOT_PATH ${CROSS_PREFIX} ${CMAKE_FIND_ROOT_PATH})
-endif()
 include(FindNe10)
 message(STATUS "NE10_LIBRARY: " ${NE10_LIBRARY})
-message(STATUS "NE10_INCLUDE_DIR: " ${NE10_INCLUDE_DIR}) 
+message(STATUS "NE10_INCLUDE_DIR: " ${NE10_INCLUDE_DIR})
+include_directories(${NE10_INCLUDE_DIR}/ne10)
 
 ########################################################################
 # Setup doxygen
